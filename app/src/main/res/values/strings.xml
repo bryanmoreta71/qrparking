@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">QR Parking</string>
+    <string name="scan">Escanear QR</string>
+    <string name="settings">Configuración</string>
+    <string name="reload">Recargar</string>
+    <string name="go_home">Ir a la página inicial</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="url_hint">URL de la página (https://…)</string>
+    <string name="selector_hint">Selector CSS del campo (opcional, ej. #codigo)</string>
+    <string name="selector_help">Si lo dejas vacío, se usa el campo donde tocaste por última vez o el primer campo de texto visible.</string>
+    <string name="auto_submit">Enviar automáticamente después de escribir</string>
+    <string name="digits_only">Usar solo los números del QR</string>
+    <string name="code_filled">Código ingresado: %1$s</string>
+    <string name="field_not_found">No encontré un campo de texto. Toca el campo en la página y vuelve a escanear. Código: %1$s</string>
+    <string name="scan_failed">No se pudo escanear: %1$s</string>
+    <string name="url_required">Configura primero la URL de la página</string>
+    <string name="invalid_url">URL inválida</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.QrParking" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorOnPrimary">@color/on_brand</item>
+        <item name="colorPrimaryContainer">@color/brand</item>
+        <item name="colorOnPrimaryContainer">@color/on_brand</item>
+        <item name="android:statusBarColor">@color/brand_dark</item>
+    </style>
+</resources>
