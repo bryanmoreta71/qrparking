@@ -18,6 +18,7 @@ App Android (Kotlin) para validar tickets de parqueo escaneando el QR en lugar d
 | Selector CSS del campo | Opcional. Ej. `#codigo` o `input[name=ticket]`. Si está vacío se usa el campo que tocaste por última vez o el primer campo de texto visible. |
 | Usar solo los números del QR | Por si el QR trae texto extra (por ejemplo una URL) y la página solo acepta los dígitos. |
 | Enviar automáticamente | Después de escribir el código, envía el formulario. |
+| Usuario y contraseña | Si la página cierra la sesión, se rellenan solos al aparecer el formulario de inicio de sesión; tú solo pulsas "Iniciar sesión". La contraseña se guarda cifrada (Android Keystore) y solo se escribe en el dominio de la URL configurada. También puedes usar ⋮ → *Rellenar inicio de sesión*. |
 
 ## Compilar
 

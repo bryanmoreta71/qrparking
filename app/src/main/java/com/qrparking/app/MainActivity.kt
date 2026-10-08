@@ -2,6 +2,7 @@ package com.qrparking.app
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_home -> { loadHome(); true }
+                R.id.action_fill_login -> { fillLogin(manual = true); true }
                 R.id.action_reload -> { webView.reload(); true }
                 R.id.action_settings -> { showSettings(); true }
                 else -> false
@@ -94,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView, url: String?) {
                 progress.visibility = View.GONE
                 view.evaluateJavascript(FillScript.TRACK_FOCUS, null)
+                if (prefs.autoLogin) fillLogin(manual = false)
                 CookieManager.getInstance().flush()
             }
         }
@@ -144,17 +147,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Solo escribimos la contraseña en el sitio configurado (mismo dominio o subdominio). */
+    private fun isTrustedPage(): Boolean {
+        val pageHost = webView.url?.let { Uri.parse(it).host } ?: return false
+        val baseHost = Uri.parse(prefs.url).host?.removePrefix("www.") ?: return false
+        return pageHost == baseHost || pageHost.endsWith(".$baseHost")
+    }
+
+    private fun fillLogin(manual: Boolean) {
+        val user = prefs.username
+        val pass = prefs.password
+        if (user.isEmpty() && pass.isEmpty()) {
+            if (manual) Snackbar.make(webView, R.string.no_credentials, Snackbar.LENGTH_LONG).show()
+            return
+        }
+        if (!isTrustedPage()) return
+        webView.evaluateJavascript(FillScript.login(user, pass), null)
+    }
+
     private fun showSettings() {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_settings, null)
         val editUrl = view.findViewById<EditText>(R.id.editUrl)
         val editSelector = view.findViewById<EditText>(R.id.editSelector)
         val switchDigits = view.findViewById<MaterialSwitch>(R.id.switchDigits)
         val switchSubmit = view.findViewById<MaterialSwitch>(R.id.switchSubmit)
+        val editUser = view.findViewById<EditText>(R.id.editUser)
+        val editPass = view.findViewById<EditText>(R.id.editPass)
+        val switchAutoLogin = view.findViewById<MaterialSwitch>(R.id.switchAutoLogin)
 
         editUrl.setText(prefs.url)
         editSelector.setText(prefs.selector)
         switchDigits.isChecked = prefs.digitsOnly
         switchSubmit.isChecked = prefs.autoSubmit
+        editUser.setText(prefs.username)
+        editPass.setText(prefs.password)
+        switchAutoLogin.isChecked = prefs.autoLogin
 
         val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.settings)
@@ -177,8 +204,12 @@ class MainActivity : AppCompatActivity() {
                 prefs.selector = editSelector.text.toString().trim()
                 prefs.digitsOnly = switchDigits.isChecked
                 prefs.autoSubmit = switchSubmit.isChecked
+                prefs.username = editUser.text.toString().trim()
+                prefs.password = editPass.text.toString()
+                prefs.autoLogin = switchAutoLogin.isChecked
                 dialog.dismiss()
                 if (urlChanged || webView.url == null) loadHome()
+                else if (prefs.autoLogin) fillLogin(manual = false)
             }
         }
         dialog.show()

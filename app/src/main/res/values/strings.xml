@@ -16,4 +16,11 @@
     <string name="scan_failed">No se pudo escanear: %1$s</string>
     <string name="url_required">Configura primero la URL de la página</string>
     <string name="invalid_url">URL inválida</string>
+    <string name="login_section">Inicio de sesión</string>
+    <string name="username_hint">Usuario o correo</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="auto_login">Autocompletar usuario y contraseña</string>
+    <string name="login_help">Se rellenan solos cuando aparece la pantalla de inicio de sesión; tú solo pulsas “Iniciar sesión”. La contraseña se guarda cifrada en este teléfono y solo se escribe en páginas del mismo dominio que la URL configurada.</string>
+    <string name="fill_login">Rellenar inicio de sesión</string>
+    <string name="no_credentials">Guarda tu usuario y contraseña en Configuración</string>
 </resources>
